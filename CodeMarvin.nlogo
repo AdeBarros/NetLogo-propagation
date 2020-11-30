@@ -451,6 +451,23 @@ voteRouge
 1
 11
 
+BUTTON
+241
+235
+320
+268
+sondage
+voter
+NIL
+1
+T
+OBSERVER
+NIL
+NIL
+NIL
+NIL
+1
+
 @#$#@#$#@
 ## WHAT IS IT?
 
