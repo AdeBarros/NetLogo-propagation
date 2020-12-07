@@ -21,7 +21,7 @@ turtles-own [
   cadre? ;; est-il cadre ou non, si c'est vrai, il est cadre
   opinion ;; quel est son opinion politique de 0 (bleu) à 100 (rouge)
   influence ;; c'est le nombre de personnes autour de lui qu'il peut influencer à chaque tick de 1 à 50
-  maleabilite ;; taux de 0 à 100 qui détermine à quel point quelqu'un peut changer d'avis
+  malleabilite ;; taux de 0 à 100 qui détermine à quel point quelqu'un peut changer d'avis
 ]
 
 to setup
@@ -51,8 +51,8 @@ to setup
     ifelse i < noncadres/cadres [set cadre? true] [set cadre? false] ;; divise la population en cadres et non cadres
     ifelse i < ruraux/urbains [set rural? true] [set rural? false] ;; divise la population en ruraux et urbains
     set i i + 1 ;; tour de compteur
-    ifelse vieux? [set maleabilite random 31] [set maleabilite random 71] ;;définie la maléabilité de chaque tortue entre 0 et 30 pour les vieux ou entre 0 et 70 pour les jeunes
-    ifelse cadre? [set maleabilite maleabilite - 10] [set maleabilite maleabilite + 10] ;; coeff de maleabilite en fct de si une personne est cadre ou non
+    ifelse vieux? [set malleabilite random 31] [set malleabilite random 71] ;;définie la maléabilité de chaque tortue entre 0 et 30 pour les vieux ou entre 0 et 70 pour les jeunes
+    ifelse cadre? [set malleabilite malleabilite - 10] [set malleabilite malleabilite + 10] ;; coeff de malleabilite en fct de si une personne est cadre ou non
   ]
   ;;setup-patches
   set opinion-globale opinion-somme / population ;; calcul de l'opinion global
@@ -144,16 +144,16 @@ end
 to convaincre-moi
   set alea random 101 ;; tirer au sort un nombre représentant si la discussion avec un ami a su convaincre ou non
   ifelse one-of (turtles in-radius 1) with [influence = 50] != nobody ;; si un de ses voisins direct est un influenceur et qu'il existe un voisin avec qui discuter alors la tortue deviens plus maléable
-    [set maleabilite maleabilite + 10
-      if alea < maleabilite ;; si la discussion a été convaincante alors
+    [set malleabilite malleabilite + 10
+      if alea < malleabilite ;; si la discussion a été convaincante alors
       [
         set opinion-autre [opinion] of one-of turtles in-radius 1 ;; choisir une opinion parmis ses voisins
         if opinion-autre > opinion [set opinion opinion + 5]
         if opinion-autre < opinion [set opinion opinion - 5] ;; si son opinion est supérieure, augmenter la sienne sinon la diminuer
         set opinion [opinion] of one-of turtles in-radius 1
       ]
-    set maleabilite maleabilite - 10]
-    [if alea < maleabilite
+    set malleabilite malleabilite - 10]
+    [if alea < malleabilite
       [
         set opinion-autre [opinion] of one-of turtles in-radius 1
         if opinion-autre > opinion [set opinion opinion + 5]
@@ -194,9 +194,8 @@ to creer_influenceur_souris
         ifelse random population + 1 < vieux/jeunes [set vieux? true set shape "star"] [set vieux? false set shape "triangle"] ;; divise la population en vieux et jeunes
         ifelse random population + 1 < noncadres/cadres [set cadre? true] [set cadre? false] ;; divise la population en cadres et non cadres
         ifelse random population + 1 < ruraux/urbains [set rural? true] [set rural? false] ;; divise la population en ruraux et urbains
-        ifelse vieux? [set maleabilite random 31] [set maleabilite random 71] ;;définie la maléabilité de chaque tortue entre 0 et 30 pour les vieux ou entre 0 et 70 pour les jeunes
-        ifelse cadre? [set maleabilite maleabilite - 10] [set maleabilite maleabilite + 10] ;; coeff de maleabilite en fct de si une personne est cadre ou non
-
+        ifelse vieux? [set malleabilite random 31] [set malleabilite random 71] ;;définie la maléabilité de chaque tortue entre 0 et 30 pour les vieux ou entre 0 et 70 pour les jeunes
+        ifelse cadre? [set malleabilite malleabilite - 10] [set malleabilite malleabilite + 10] ;; coeff de malleabilite en fct de si une personne est cadre ou non
       ]
     ]
 
