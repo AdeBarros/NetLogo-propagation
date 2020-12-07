@@ -178,6 +178,30 @@ to voter
           set voteRouge (voteRouge + 1 * alea)]]]
   ]
 end
+
+to creer_influenceur_souris
+  if mouse-down? [
+    ask patch mouse-xcor mouse-ycor [
+      sprout 1 [
+        set opinion random 101 ;; donne une opinion aléatoire entre 0 et 100
+        set influence 50
+        set size 2
+        ;; donne la couleur en fonction de l'opinion
+        ifelse opinion < 20 [set color dark-blue]
+        [ifelse opinion < 40  [set color light-blue]
+          [ifelse opinion < 60  [set color neutral-color]
+            [ifelse opinion < 80  [set color light-red] [set color dark-red]]]]
+        ifelse random population + 1 < vieux/jeunes [set vieux? true set shape "star"] [set vieux? false set shape "triangle"] ;; divise la population en vieux et jeunes
+        ifelse random population + 1 < noncadres/cadres [set cadre? true] [set cadre? false] ;; divise la population en cadres et non cadres
+        ifelse random population + 1 < ruraux/urbains [set rural? true] [set rural? false] ;; divise la population en ruraux et urbains
+        ifelse vieux? [set maleabilite random 31] [set maleabilite random 71] ;;définie la maléabilité de chaque tortue entre 0 et 30 pour les vieux ou entre 0 et 70 pour les jeunes
+        ifelse cadre? [set maleabilite maleabilite - 10] [set maleabilite maleabilite + 10] ;; coeff de maleabilite en fct de si une personne est cadre ou non
+
+      ]
+    ]
+
+  ]
+end
 @#$#@#$#@
 GRAPHICS-WINDOW
 344
@@ -226,7 +250,7 @@ vieux/jeunes
 vieux/jeunes
 0
 population
-470.0
+490.0
 10
 1
 NIL
@@ -256,7 +280,7 @@ ruraux/urbains
 ruraux/urbains
 0
 population
-900.0
+560.0
 10
 1
 NIL
@@ -459,6 +483,23 @@ BUTTON
 sondage
 voter
 NIL
+1
+T
+OBSERVER
+NIL
+NIL
+NIL
+NIL
+1
+
+BUTTON
+591
+617
+764
+650
+Ajouter influenceur souris
+creer_influenceur_souris
+T
 1
 T
 OBSERVER
